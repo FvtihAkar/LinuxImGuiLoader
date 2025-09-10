@@ -1,4 +1,4 @@
-EXE = example_glfw_opengl3
+EXE = loader
 IMGUI_DIR = ./incs/imgui
 OBJDIR = intermediates
 
@@ -14,7 +14,6 @@ SOURCES = main.cpp \
           api.cpp
 
 
-# OBJS: sadece dosya adını kullanarak intermediates klasörüne koy
 OBJS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(notdir $(SOURCES)))
 
 CXX = g++
@@ -26,12 +25,10 @@ ifeq ($(UNAME_S), Darwin)
 	LIBS = -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lglfw
 endif
 
-# Genel rule: tüm kaynaklar için geçerli
 $(OBJDIR)/%.o: %.cpp | $(OBJDIR)
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# SOURCES klasörleri için rule
 $(OBJDIR)/%.o: $(IMGUI_DIR)/%.cpp | $(OBJDIR)
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -44,7 +41,6 @@ $(OBJDIR)/%.o: $(IMGUI_DIR)/misc/cpp/%.cpp | $(OBJDIR)
 	@mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Build exe
 $(EXE): $(OBJS)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
