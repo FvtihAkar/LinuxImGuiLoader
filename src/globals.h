@@ -1,0 +1,1 @@
+bool activeWindow = 0;
